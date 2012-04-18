@@ -21,14 +21,14 @@ module Trinidad
         end
 
         def start_workers
-          puts 'starting worker'
+          $stderr.puts 'starting worker'
           pre_require
           @workers = create_workers
           @threads = create_threads
         end
 
         def stop_workers
-          puts 'stopping workers'
+          $stderr.puts 'stopping workers'
           @workers.each { |w| w.shutdown } if @workers
           @threads.each { |t| t.join } if @threads
         end
@@ -44,7 +44,7 @@ module Trinidad
         end
 
         def create_workers
-          puts "creating workers"
+          $stderr.puts "creating workers"
           queues = @options[:queues] || { '*' => 1 }
           queues.map do |queue, count|
             count.to_i.times.map do 
@@ -54,7 +54,7 @@ module Trinidad
         end
 
         def create_threads
-          puts 'starting threads'
+          $stderr.puts 'starting threads'
           @workers.map do |w|
             Thread.new do
               w.work
